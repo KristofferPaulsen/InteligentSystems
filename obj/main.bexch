@@ -1,23 +1,23 @@
 [GENERATED OBJECT FILE]
 b__main.o
 [PROJECT FILES]
-C:\GNAT\2021\bin\Intelligente sanntid 2\default.gpr
-20221116141948 82de76752a1644ab69097344f1391b9c
-C:\GNAT\Ada_Drivers_Library\boards\MicroBit_v2\microbit_v2_full.gpr
-20221117105942 a9e3422c4ebbac1b535d4a2173f54239
+C:\GNAT\InteligentSystems\default.gpr
+20221116141948 9ebe27800990e9d492d4a2527b50a775
+C:\gnat\Ada_Drivers_Library\boards\MicroBit_v2\microbit_v2_full.gpr
+20221117105942 a8719163d6a4de226d86480e1cdd2f2a
 [BOUND OBJECT FILES]
-C:\GNAT\2021\bin\Intelligente sanntid 2\obj\ultrasonic.o
-C:\GNAT\2021\bin\Intelligente sanntid 2\obj\wheels.o
-C:\GNAT\2021\bin\Intelligente sanntid 2\obj\controller.o
-C:\GNAT\2021\bin\Intelligente sanntid 2\obj\main.o
+C:\GNAT\InteligentSystems\obj\ultrasonic.o
+C:\GNAT\InteligentSystems\obj\wheels.o
+C:\GNAT\InteligentSystems\obj\controller.o
+C:\GNAT\InteligentSystems\obj\main.o
 [GENERATED SOURCE FILES]
 b__main.ads
 b__main.adb
 b__main.ali
 [RESULTING OPTIONS]
--LC:\GNAT\2021\bin\Intelligente sanntid 2\obj\
--LC:\GNAT\2021\bin\Intelligente sanntid 2\obj\
--LC:\GNAT\Ada_Drivers_Library\boards\MicroBit_v2\obj\full_lib_Debug\
+-LC:\GNAT\InteligentSystems\obj\
+-LC:\GNAT\InteligentSystems\obj\
+-LC:\gnat\Ada_Drivers_Library\boards\MicroBit_v2\obj\full_lib_Debug\
 -LC:\gnat\2021-arm-elf\arm-eabi\lib\gnat\ravenscar-full-nrf52833\adalib\
 -static
 -static-libgcc

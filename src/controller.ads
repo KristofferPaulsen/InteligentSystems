@@ -1,7 +1,12 @@
 with Ada.Real_Time; use Ada.Real_Time;
+with Ada.Execution_Time; use Ada.Execution_Time;
 with MicroBit.Console; use MicroBit.Console;
 with Wheels;
 with Ultrasonic; use Ultrasonic;
+with NRF.Radio;
+with HAL; use HAL;
+use MicroBit;
+with MicroBit.Radio; use MicroBit.Radio;
 
 package Controller is
   
@@ -28,8 +33,15 @@ package Controller is
    private        
       SensorValues : Distance_Cm := 0;
    end Measurements;
-
+   
+   protected MicroValues is 
+      procedure SetMicroValues(A : Radio.RadioData);
+      function GetMicroValues return Radio.RadioData;
       
-                       
+   private
+      MicrobitData : Radio.RadioData;
+   
+   end MicroValues;
+   
 end Controller;
 

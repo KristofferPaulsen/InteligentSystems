@@ -1,10 +1,4 @@
-with Ada.Real_Time; use Ada.Real_Time; 
-with Wheels; use Wheels;
-with Ultrasonic; use Ultrasonic;
-with MicroBit.Radio; use MicroBit.Radio;
-use MicroBit; 
-with HAL; use HAL;
-with Ada.Execution_Time; use Ada.Execution_Time;
+
 
 package body Controller is
       
@@ -24,124 +18,88 @@ package body Controller is
             Put_Line("NOTMOVING");
       end case; 
    end Drive;
-    
        
    task body Sense is 
       SensorValues : Distance_Cm := 10;
+      TempData : Radio.RadioData;
+      TxData : Radio.RadioData;
       MyClock : Time; 
-      Time_Now_Stopwatch : Time;
-      Time_Now_CPU : CPU_Time;
-      Elapsed_Stopwatch : Time_Span;
-      Elapsed_CPU : Time_Span;
-      AmountOfMeasurement: Integer := 10; -- do 10 measurement and average
-          
    begin 
       Ultrasonic.Setup(10,11);
+      TxData.Length := 3+12;
+      TxData.Version := 12;
+      TxData.Group := 1;
+      TxData.Protocol := 14;
       
-      loop
-         Elapsed_Stopwatch := Time_Span_Zero;
-         Elapsed_CPU := Time_Span_Zero;
-         
-         for Index in 1..AmountOfMeasurement loop
-         
-            Time_Now_Stopwatch := Clock;
-            Time_Now_CPU := Clock;
-
-        
-            MyClock := Clock;               
+      Radio.Setup(RadioFrequency => 2407,
+                  Length => TxData.Length,
+                  Version => TxData.Version,
+                  Group => TxData.Group, 
+                  Protocol => TxData.Protocol);
+      
+      Radio.StartReceiving;
+      Put_Line(Radio.State);
+      
+      loop 
+         MyClock := Clock;               
              
-            Measurements.SetMeasurements(Read);
+         Measurements.SetMeasurements(Read);
          
-            Put_Line("Read" & Distance_Cm'Image(SensorValues));
-                                 
-            delay until Myclock + Milliseconds(70);   
-            Elapsed_CPU := Elapsed_CPU + (Clock - Time_Now_CPU);
-            Elapsed_Stopwatch := Elapsed_Stopwatch + (Clock - Time_Now_Stopwatch);
-         end loop;
-         Elapsed_CPU := Elapsed_CPU / AmountOfMeasurement;
-         Elapsed_Stopwatch := Elapsed_Stopwatch / AmountOfMeasurement;
-
-         Put_Line ("Average CPU time SENSE: " & To_Duration (Elapsed_CPU)'Image & " seconds");
-         Put_Line ("Average Stopwatch time SENSE: " & To_Duration (Elapsed_Stopwatch)'Image & " seconds");
-            
-       
+         Put_Line("Read" & Distance_Cm'Image(Read));
+        
+         MicroValues.SetMicroValues(Radio.Receive);
+         
+         delay until Myclock + Milliseconds(100);   
+                   
       end loop;
    end Sense; 
    
    task body Act is 
       MyClock : Time;
-      Time_Now_Stopwatch : Time;
-      Time_Now_CPU : CPU_Time;
-      Elapsed_Stopwatch : Time_Span;
-      Elapsed_CPU : Time_Span;
-      AmountOfMeasurement: Integer := 10; -- do 10 measurement and average
-
    begin 
       loop 
-         Elapsed_Stopwatch := Time_Span_Zero;
-         Elapsed_CPU := Time_Span_Zero;
-         
-         for Index in 1..AmountOfMeasurement loop
-         
-            Time_Now_Stopwatch := Clock;
-            Time_Now_CPU := Clock;
-
-            MyClock := Clock;
+    
+         MyClock := Clock;
         
-            Drive(MotorDriver.GetDirection);
-            delay until MyClock + Milliseconds(50);
-            Elapsed_CPU := Elapsed_CPU + (Clock - Time_Now_CPU);
-            Elapsed_Stopwatch := Elapsed_Stopwatch + (Clock - Time_Now_Stopwatch);
-         end loop;
-         Elapsed_CPU := Elapsed_CPU / AmountOfMeasurement;
-         Elapsed_Stopwatch := Elapsed_Stopwatch / AmountOfMeasurement;
-
-         Put_Line ("Average CPU time ACT: " & To_Duration (Elapsed_CPU)'Image & " seconds");
-         Put_Line ("Average Stopwatch time ACT: " & To_Duration (Elapsed_Stopwatch)'Image & " seconds");
+         Drive(MotorDriver.GetDirection);
+         delay until MyClock + Milliseconds(50);
+      
          
       end loop;
    end Act; 
       
    task body Think is 
       MyClock : Time;
-      Time_Now_Stopwatch : Time;
-      Time_Now_CPU : CPU_Time;
-      Elapsed_Stopwatch : Time_Span;
-      Elapsed_CPU : Time_Span;
-      AmountOfMeasurement: Integer := 10; -- do 10 measurement and average
+      RData : Radio.RadioData;
    begin
       
       loop
-         Elapsed_Stopwatch := Time_Span_Zero;
-         Elapsed_CPU := Time_Span_Zero;
-         
-         for Index in 1..AmountOfMeasurement loop
-         
-            Time_Now_Stopwatch := Clock;
-            Time_Now_CPU := Clock;
-         
-            MyClock := Clock; 
+    
+         MyClock := Clock; 
       
-            Put_Line("Hello");
-            
-            if Measurements.GetMeasurements < 50 then 
-               MotorDriver.SetDirection(Right); 
+         Put_Line("Hello");
+         RData := MicroValues.GetMicroValues;
+         if Measurements.GetMeasurements > 50 then
+            if RData.Payload(1) = 0 then 
+               MotorDriver.SetDirection(Stop);
+            elsif RData.Payload(1) = 1 then
+               MotorDriver.SetDirection(Front);
+            elsif Rdata.Payload(1) = 2 then
+               MotorDriver.SetDirection(Back);
+            elsif Rdata.Payload(1) = 3 then
+               MotorDriver.SetDirection(Right);
+            elsif Rdata.Payload(1) = 4 then
+               MotorDriver.SetDirection(Left);
             else 
-               MotorDriver.SetDirection(Front); 
-            end if;    
+               MotorDriver.SetDirection(Stop);
+            end if; 
+         
+         else 
+            MotorDriver.SetDirection(Stop);  
+         end if;    
       
-            delay until MyClock + Milliseconds(100);
-               
-            Elapsed_CPU := Elapsed_CPU + (Clock - Time_Now_CPU);
-            Elapsed_Stopwatch := Elapsed_Stopwatch + (Clock - Time_Now_Stopwatch);
-         end loop;
-         Elapsed_CPU := Elapsed_CPU / AmountOfMeasurement;
-         Elapsed_Stopwatch := Elapsed_Stopwatch / AmountOfMeasurement;
-
-         Put_Line ("Average CPU time THINK: " & To_Duration (Elapsed_CPU)'Image & " seconds");
-         Put_Line ("Average Stopwatch time THINK: " & To_Duration (Elapsed_Stopwatch)'Image & " seconds");
-     
-
+         delay until MyClock + Milliseconds(100);
+                
       end loop;               
    end Think;
                       
@@ -172,4 +130,21 @@ package body Controller is
       end GetMeasurements;
    
    end Measurements;
+   
+   protected body MicroValues is 
+      procedure SetMicroValues(A : Radio.RadioData) is 
+      begin
+         MicrobitData := A;
+      end SetMicroValues;
+      
+      function GetMicroValues return Radio.RadioData is 
+      begin 
+         return MicrobitData;
+      end GetMicroValues;
+   end MicroValues;
+   
+  
 end Controller;
+
+   
+

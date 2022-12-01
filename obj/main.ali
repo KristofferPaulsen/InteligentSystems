@@ -14,7 +14,7 @@ RN
 RV STATIC_PRIORITIES
 RV NO_IMPLEMENTATION_PRAGMAS
 
-U main%b		main.adb		c3af8a64 NE OO SU
+U main%b		main.adb		851e6e87 NE OO SU
 Z ada.strings.text_buffers%s  a-sttebu.adb	a-sttebu.ali
 W controller%s		controller.adb		controller.ali
 Z system%s		system.ads		system.ali
@@ -22,6 +22,7 @@ Z system.tasking.restricted.stages%s  s-tarest.adb  s-tarest.ali
 
 D ada.ads		20220915115608 76789da1 ada%s
 D a-except.ads		20220915115610 946f3014 ada.exceptions%s
+D a-exetim.ads		20220915115610 006b9423 ada.execution_time%s
 D a-finali.ads		20220915115610 bf4f806b ada.finalization%s
 D a-interr.ads		20220915115610 bdf68b51 ada.interrupts%s
 D a-intnam.ads		20220915115610 543e27b6 ada.interrupts.names%s
@@ -33,7 +34,7 @@ D a-stuten.ads		20220915115610 808c40ad ada.strings.utf_encoding%s
 D a-tags.ads		20220915115610 9eaa38c6 ada.tags%s
 D a-taside.ads		20220915115610 00e3a3f6 ada.task_identification%s
 D a-unccon.ads		20220915115608 0e9b276f ada.unchecked_conversion%s
-D controller.ads	20221118164448 fd5ed3ff controller%s
+D controller.ads	20221123161812 bbef371c controller%s
 D hal.ads		20220915121920 2b42c80e hal%s
 D hal-gpio.ads		20220915121920 7f0c2ffe hal.gpio%s
 D hal-i2c.ads		20220915121920 0ed73138 hal.i2c%s
@@ -44,9 +45,11 @@ D main.adb		20221117084042 3ef1599b main%b
 D microbit.ads		20220922121120 3b54a3e8 microbit%s
 D microbit-console.ads	20220915121920 0bb00661 microbit.console%s
 D microbit-iosfortasking.ads  20221117105942 7dfd8b70 microbit.iosfortasking%s
+D microbit-radio.ads	20221027111848 6901b417 microbit.radio%s
 D nrf.ads		20220915121920 74cf72f5 nrf%s
 D nrf-device.ads	20220915121920 9c9916c4 nrf.device%s
 D nrf-gpio.ads		20220915121920 ab6d4598 nrf.gpio%s
+D nrf-radio.ads		20221031100332 f28f290a nrf.radio%s
 D nrf-rtc.ads		20220915121920 36d88130 nrf.rtc%s
 D nrf-spi_master.ads	20220915121920 a8ff49a3 nrf.spi_master%s
 D nrf-timers.ads	20221020133816 15fa58e3 nrf.timers%s
@@ -98,24 +101,24 @@ D unchconv.ads		20220915115608 ca2f9e18 unchecked_conversion%s
 D wheels.ads		20221116155234 57713f31 wheels%s
 G a e
 G c Z b b [main standard 3 11 none]
-X 14 controller.ads
-6K9*Controller 34e15 21|1w6
-X 16 hal-gpio.ads
+X 15 controller.ads
+11K9*Controller 46e15 22|1w6
+X 17 hal-gpio.ads
 47h9*GPIO_Point
-X 17 hal-i2c.ads
+X 18 hal-i2c.ads
 48h9*I2C_Port
-X 18 hal-spi.ads
+X 19 hal-spi.ads
 48h9*SPI_Port
-X 19 hal-uart.ads
+X 20 hal-uart.ads
 48h9*UART_Port
-X 21 main.adb
+X 22 main.adb
 3U11*Main 3b11 11l5 11t9
-X 52 s-interr.ads
+X 55 s-interr.ads
 97U14*Install_Restricted_Handlers_Sequential 98i<c,__gnat_attach_all_handlers>22
-X 60 s-secsta.ads
+X 63 s-secsta.ads
 46P9*SS_Stack_Ptr(43R9)
-X 68 s-taskin.ads
-398V13*Get_Sec_Stack{60|46P9} 399i<c,__gnat_get_secondary_stack>22
-X 71 s-tarest.ads
+X 71 s-taskin.ads
+398V13*Get_Sec_Stack{63|46P9} 399i<c,__gnat_get_secondary_stack>22
+X 74 s-tarest.ads
 232U14*Activate_All_Tasks_Sequential 233i<c,__gnat_activate_all_tasks>22
 
